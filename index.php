@@ -49,7 +49,7 @@ $recentMovements = $pdo->query("
                 <div class="card bg-success text-white">
                     <div class="card-body">
                         <h6>Общая стоимость</h6>
-                        <h2><?= number_format($totalValue, 0, ',', ' ') ?> ₽</h2>
+                        <h2><?= number_format($totalValue ?: 0, 0, ',', ' ') ?> ₽</h2>
                     </div>
                 </div>
             </div>
