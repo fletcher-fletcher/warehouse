@@ -6,8 +6,8 @@ redirectIfNotLoggedIn();
 $totalProducts = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
 $totalValue = $pdo->query("SELECT SUM(price * stock) FROM products")->fetchColumn();
 $lowStock = $pdo->query("SELECT COUNT(*) FROM products WHERE stock <= min_stock AND min_stock > 0")->fetchColumn();
-$todayReceipt = $pdo->query("SELECT SUM(quantity) FROM movements WHERE type='receipt' AND DATE(created_at)=CURDATE()")->fetchColumn();
-$todayShipment = $pdo->query("SELECT SUM(quantity) FROM movements WHERE type='shipment' AND DATE(created_at)=CURDATE()")->fetchColumn();
+$todayReceipt = $pdo->query("SELECT SUM(quantity) FROM movements WHERE type='receipt' AND DATE(created_at)=DATE('now')")->fetchColumn();
+$todayShipment = $pdo->query("SELECT SUM(quantity) FROM movements WHERE type='shipment' AND DATE(created_at)=DATE('now')")->fetchColumn();
 
 // Товары с низким остатком
 $lowStockProducts = $pdo->query("SELECT * FROM products WHERE stock <= min_stock AND min_stock > 0 LIMIT 5")->fetchAll();
@@ -81,22 +81,22 @@ $recentMovements = $pdo->query("
                     <div class="card-body p-0">
                         <table class="table table-sm mb-0">
                             <thead>
-                                <tr><th>Артикул</th><th>Товар</th><th>Остаток</th><th>Мин.</th></tr>
+                                <tr><th>Артикул</th><th>Товар</th><th>Остаток</th><th>Мин.</th> </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($lowStockProducts as $p): ?>
-                                <tr>
+                                 <tr>
                                     <td><?= htmlspecialchars($p['sku']) ?></td>
                                     <td><?= htmlspecialchars($p['name']) ?></td>
                                     <td class="text-danger"><?= $p['stock'] ?> <?= $p['unit'] ?></td>
                                     <td><?= $p['min_stock'] ?></td>
-                                </tr>
+                                 </tr>
                                 <?php endforeach; ?>
                                 <?php if(empty($lowStockProducts)): ?>
-                                <tr><td colspan="4" class="text-center">Все товары в норме</td></tr>
+                                 <tr><td colspan="4" class="text-center">Все товары в норме</td></tr>
                                 <?php endif; ?>
                             </tbody>
-                        </table>
+                         </table>
                     </div>
                 </div>
             </div>
@@ -109,11 +109,11 @@ $recentMovements = $pdo->query("
                     <div class="card-body p-0">
                         <table class="table table-sm mb-0">
                             <thead>
-                                <tr><th>Дата</th><th>Тип</th><th>Товар</th><th>Кол-во</th></tr>
+                                 <tr><th>Дата</th><th>Тип</th><th>Товар</th><th>Кол-во</th></tr>
                             </thead>
                             <tbody>
                                 <?php foreach($recentMovements as $m): ?>
-                                <tr>
+                                 <tr>
                                     <td><?= date('d.m H:i', strtotime($m['created_at'])) ?></td>
                                     <td>
                                         <span class="badge bg-<?= $m['type'] == 'receipt' ? 'success' : 'danger' ?>">
@@ -122,10 +122,10 @@ $recentMovements = $pdo->query("
                                     </td>
                                     <td><?= htmlspecialchars($m['product_name']) ?></td>
                                     <td><?= $m['quantity'] ?></td>
-                                </tr>
+                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
-                        </table>
+                         </table>
                     </div>
                 </div>
             </div>
@@ -160,23 +160,11 @@ $recentMovements = $pdo->query("
                 <div class="row">
                     <div class="col-md-6">
                         <table class="table table-sm table-borderless">
-                            <tr>
-                                <th style="width: 120px;">ИНН:</th>
-                                <td><?= htmlspecialchars($company['inn'] ?? '—') ?></td>
-                            </tr>
-                            <tr>
-                                <th>КПП:</th>
-                                <td><?= htmlspecialchars($company['kpp'] ?? '—') ?></td>
-                            </tr>
-                            <tr>
-                                <th>ОГРН:</th>
-                                <td><?= htmlspecialchars($company['ogrn'] ?? '—') ?></td>
-                            </tr>
-                            <tr>
-                                <th>Адрес:</th>
-                                <td><?= htmlspecialchars($company['address'] ?? '—') ?></td>
-                            </tr>
-                        </table>
+                             <tr><th style="width: 120px;">ИНН:</th><td><?= htmlspecialchars($company['inn'] ?? '—') ?></td></tr>
+                             <tr><th>КПП:</th><td><?= htmlspecialchars($company['kpp'] ?? '—') ?></td></tr>
+                             <tr><th>ОГРН:</th><td><?= htmlspecialchars($company['ogrn'] ?? '—') ?></td></tr>
+                             <tr><th>Адрес:</th><td><?= htmlspecialchars($company['address'] ?? '—') ?></td></tr>
+                         </table>
                     </div>
                     <div class="col-md-6">
                         <div class="alert alert-info mb-0">
