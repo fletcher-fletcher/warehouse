@@ -21,7 +21,7 @@ try {
         // Проверяем, есть ли таблица users
         $result = $pdo->query("SELECT name FROM sqlite_master WHERE type='table' AND name='users'");
         if (!$result->fetch()) {
-            // Создаем таблицы прямо здесь
+            // Создаем таблицы
             $pdo->exec("
                 CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -92,18 +92,37 @@ try {
                 );
             ");
             
-            // Добавляем тестовые данные
+            // Добавляем пользователей
             $pdo->exec("
                 INSERT INTO users (name, email, password, role) VALUES
                 ('Администратор', 'admin@warehouse.ru', '\$2y\$10\$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
                 ('Кладовщик', 'worker@warehouse.ru', '\$2y\$10\$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'warehouse');
                 
+                INSERT INTO company (id, name, inn, kpp, ogrn, address) VALUES
+                (1, 'ООО \"Журавли торговля и логистика\"', '7536089490', '753601001', '1207700359525', '672014, Забайкальский край, г.о. город Чита, г Чита, ул 5-я Малая, д. 10');
+            ");
+        }
+        
+        // Проверяем, есть ли товары
+        $productCount = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
+        if ($productCount == 0) {
+            // Добавляем поставщиков
+            $pdo->exec("
                 INSERT INTO suppliers (name, phone, email, address) VALUES
                 ('ООО \"Продукт-Сервис\"', '+7 (495) 111-22-33', 'info@product-service.ru', 'г. Москва'),
                 ('ООО \"Балтик Трейд\"', '+7 (495) 444-55-66', 'sales@baltiktrade.ru', 'г. Санкт-Петербург');
-                
-                INSERT INTO company (id, name, inn, kpp, ogrn, address) VALUES
-                (1, 'ООО \"Журавли торговля и логистика\"', '7536089490', '753601001', '1207700359525', '672014, Забайкальский край, г.о. город Чита, г Чита, ул 5-я Малая, д. 10');
+            ");
+            
+            // Добавляем товары
+            $pdo->exec("
+                INSERT INTO products (sku, name, unit, price, stock, min_stock, supplier_id) VALUES
+                ('GROC-001', 'Сахар-песок', 'шт', 79.90, 150, 30, 1),
+                ('GROC-002', 'Мука пшеничная', 'шт', 59.90, 120, 25, 1),
+                ('BEV-001', 'Вода питьевая', 'шт', 39.90, 200, 50, 2),
+                ('BEV-002', 'Сок апельсиновый', 'шт', 89.90, 80, 20, 2),
+                ('BEV-003', 'Кола', 'шт', 89.90, 100, 30, 2),
+                ('DAIRY-001', 'Молоко 3.2%', 'шт', 89.90, 120, 40, 1),
+                ('DAIRY-002', 'Кефир 2.5%', 'шт', 79.90, 90, 25, 1);
             ");
         }
     }
