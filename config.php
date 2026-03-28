@@ -2,18 +2,12 @@
 // config.php
 session_start();
 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'warehouse');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+// Используем SQLite
+$db_path = __DIR__ . '/database/database.sqlite';
 
 // Подключение к БД
 try {
-    $pdo = new PDO(
-        "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8",
-        DB_USER,
-        DB_PASS
-    );
+    $pdo = new PDO("sqlite:" . $db_path);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("Ошибка подключения: " . $e->getMessage());
