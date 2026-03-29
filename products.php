@@ -1,6 +1,7 @@
 <?php
 require_once 'config.php';
 redirectIfNotLoggedIn();
+requireAdmin();
 
 // Удаление товара
 if (isset($_GET['delete'])) {
