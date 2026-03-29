@@ -96,7 +96,7 @@ $recentMovements = $pdo->query("
                                  <tr><td colspan="4" class="text-center">Все товары в норме</td></tr>
                                 <?php endif; ?>
                             </tbody>
-                         </table>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -125,75 +125,51 @@ $recentMovements = $pdo->query("
                                  </tr>
                                 <?php endforeach; ?>
                             </tbody>
-                         </table>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!-- Информация о компании -->
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card border-primary">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">
-                    <i class="fas fa-building me-2"></i> 
-                    ООО "Журавли торговля и логистика"
-                </h5>
-            </div>
-            <div class="card-body">
-                <?php
-                // Получаем данные компании
-                $stmt = $pdo->query("SELECT * FROM company WHERE id = 1");
-                $company = $stmt->fetch();
-                
-                // Если в таблице нет данных, выводим из файла
-                if (!$company) {
-                    $company = [
-                        'inn' => '7536089490',
-                        'kpp' => '753601001',
-                        'ogrn' => '1207700359525',
-                        'address' => '672014, Забайкальский край, г.о. город Чита, г Чита, ул 5-я Малая, д. 10'
-                    ];
-                }
-                ?>
-                <div class="row">
-                    <div class="col-md-6">
-                        <table class="table table-sm table-borderless">
-                             <tr><th style="width: 120px;">ИНН:</th><td><?= htmlspecialchars($company['inn'] ?? '—') ?></td></tr>
-                             <tr><th>КПП:</th><td><?= htmlspecialchars($company['kpp'] ?? '—') ?></td></tr>
-                             <tr><th>ОГРН:</th><td><?= htmlspecialchars($company['ogrn'] ?? '—') ?></td></tr>
-                             <tr><th>Адрес:</th><td><?= htmlspecialchars($company['address'] ?? '—') ?></td></tr>
-                         </table>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="alert alert-info mb-0">
-                            <i class="fas fa-chart-line me-2"></i>
-                            <strong>Финансовые показатели 2024 г.:</strong><br>
-                            <div class="row mt-2">
-                                <div class="col-6">
-                                    📊 Выручка:<br>
-                                    <span class="fw-bold">2 050 729 тыс. руб.</span>
-                                </div>
-                                <div class="col-6">
-                                    💰 Чистая прибыль:<br>
-                                    <span class="fw-bold">18 401 тыс. руб.</span>
-                                </div>
-                                <div class="col-6 mt-2">
-                                    📦 Запасы:<br>
-                                    <span class="fw-bold">29 240 тыс. руб.</span>
-                                </div>
-                                <div class="col-6 mt-2">
-                                    💵 Денежные средства:<br>
-                                    <span class="fw-bold">58 109 тыс. руб.</span>
-                                </div>
-                            </div>
+
+    <!-- Информация о компании (только реквизиты, без финансов) -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-building me-2"></i> 
+                        ООО "Журавли торговля и логистика"
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <?php
+                    // Получаем данные компании
+                    $stmt = $pdo->query("SELECT * FROM company WHERE id = 1");
+                    $company = $stmt->fetch();
+                    
+                    if (!$company) {
+                        $company = [
+                            'inn' => '7536089490',
+                            'kpp' => '753601001',
+                            'ogrn' => '1207700359525',
+                            'address' => '672014, Забайкальский край, г.о. город Чита, г Чита, ул 5-я Малая, д. 10'
+                        ];
+                    }
+                    ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-sm table-borderless">
+                                <tr><th style="width: 120px;">ИНН:</th><td><?= htmlspecialchars($company['inn'] ?? '—') ?></td></tr>
+                                <tr><th>КПП:</th><td><?= htmlspecialchars($company['kpp'] ?? '—') ?></td></tr>
+                                <tr><th>ОГРН:</th><td><?= htmlspecialchars($company['ogrn'] ?? '—') ?></td></tr>
+                                <tr><th>Адрес:</th><td><?= htmlspecialchars($company['address'] ?? '—') ?></td></tr>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
