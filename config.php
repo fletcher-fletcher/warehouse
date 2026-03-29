@@ -2,7 +2,7 @@
 // config.php
 session_start();
 
-// Параметры из переменных окружения
+// Параметры из переменных окружения Render
 $db_host = getenv('DB_HOST') ?: 'localhost';
 $db_port = getenv('DB_PORT') ?: '5432';
 $db_name = getenv('DB_NAME') ?: 'warehouse';
@@ -130,5 +130,20 @@ function redirectIfNotLoggedIn() {
     if (!isLoggedIn()) {
         header('Location: login.php');
         exit;
+    }
+}
+
+// Функции для ролей
+function isAdmin() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
+
+function isWarehouse() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'warehouse';
+}
+
+function requireAdmin() {
+    if (!isAdmin()) {
+        die('Доступ запрещен. Требуются права администратора.');
     }
 }
