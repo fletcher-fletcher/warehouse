@@ -10,14 +10,27 @@
         <div class="d-flex">
             <span class="text-light me-3">
                 <i class="fas fa-user me-1"></i> <?= $_SESSION['user_name'] ?? 'Пользователь' ?>
+                <span class="badge bg-<?= isAdmin() ? 'primary' : 'secondary' ?> ms-1">
+                    <?= isAdmin() ? 'Админ' : 'Кладовщик' ?>
+                </span>
             </span>
             
-            <a href="products.php" class="btn btn-outline-light btn-sm me-2">Товары</a>
+            <a href="index.php" class="btn btn-outline-light btn-sm me-2">Главная</a>
+            
+            <?php if(isAdmin()): ?>
+                <a href="products.php" class="btn btn-outline-light btn-sm me-2">Товары</a>
+            <?php endif; ?>
+            
             <a href="movements.php?type=receipt" class="btn btn-outline-success btn-sm me-2">Приход</a>
             <a href="movements.php?type=shipment" class="btn btn-outline-danger btn-sm me-2">Отгрузка</a>
             <a href="history.php" class="btn btn-outline-info btn-sm me-2">История</a>
             <a href="inventory.php" class="btn btn-outline-warning btn-sm me-2">Инвентаризация</a>
             <a href="reports.php" class="btn btn-outline-secondary btn-sm me-2">Отчеты</a>
+            
+            <?php if(isAdmin()): ?>
+                <a href="users.php" class="btn btn-outline-light btn-sm me-2">Пользователи</a>
+            <?php endif; ?>
+            
             <a href="logout.php" class="btn btn-danger btn-sm">Выход</a>
         </div>
     </div>
