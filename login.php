@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
-        $_SESSION['role'] = $user['role'];
+        $_SESSION['role'] = $user['role'];  // Сохраняем роль
         header('Location: index.php');
         exit;
     } else {
@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="card login-card">
             <div class="card-header bg-primary text-white text-center">
                 <h4>Складская система</h4>
+                <small>ООО "Журавли торговля и логистика"</small>
             </div>
             <div class="card-body">
                 <?php if($error): ?>
@@ -62,7 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </form>
                 <hr>
                 <div class="text-center text-muted small">
-                    <p>admin@warehouse.ru / password<br>worker@warehouse.ru / password</p>
+                    <p><strong>Тестовые учетные записи:</strong></p>
+                    <p>👑 Администратор: admin@warehouse.ru / password</p>
+                    <p>📦 Кладовщик: worker@warehouse.ru / password</p>
                 </div>
             </div>
         </div>
